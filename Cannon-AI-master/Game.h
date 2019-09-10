@@ -62,6 +62,7 @@ class Game
 public:
     
     Game(int n, int m);
+    Game(Game &game);
     
     void play(pii soldierPosition, pii finalPosition, char action, int color);          //0 for black, 1 for white
     vector<pii> validMoves(pii soldierPosition, int color);

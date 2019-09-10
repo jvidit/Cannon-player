@@ -157,13 +157,13 @@ Game::Game(int nIn, int mIn)
 
 Game::Game(Game& game)
 {
-	this.blackSoldiers = game.getBlackSoldiers();
-	this.whiteSoldiers = game.getWhiteSoldiers();
-	this.blackTownHalls = game.getBlackTownHalls();
-	this.whiteTownHalls = game.getWhiteTownHalls();
-	this.board = game.getBoard();
-	this.n = game.getN();
-	this.m = game.getM();
+    this->blackSoldiers = game.getBlackSoldiers();
+    this->whiteSoldiers = game.getWhiteSoldiers();
+    this->blackTownHalls = game.getBlackTownHalls();
+    this->whiteTownHalls = game.getWhiteTownHalls();
+    this->board = game.getBoard();
+    this->n = game.getN();
+    this->m = game.getM();
 }
 
 void Game::play(pii soldierPosition, pii finalPosition, char action, int color)
@@ -484,21 +484,21 @@ int Game::getM()
 void Game::printBoard()
 {
 	;
-	// cout<<endl;
+	cout<<endl;
 
-	// cout<<". . ";
-	// for(int i=0;i<n;i++)
-	// 	cout<<i<<" ";
-	// cout<<"\n.\n";
+	cout<<". . ";
+	for(int i=0;i<n;i++)
+		cout<<i<<" ";
+	cout<<"\n.\n";
 
- //    for(int j=0;j<m;j++)
- //    {
- //    	cout<<j<<"   ";
- //        for(int i=0;i<n;i++)
- //            cout<<board[i][j]<<" ";
- //        cout<<endl;
- //    }
- //    cout<<endl;
+    for(int j=0;j<m;j++)
+    {
+    	cout<<j<<"   ";
+        for(int i=0;i<n;i++)
+            cout<<board[i][j]<<" ";
+        cout<<endl;
+    }
+    cout<<endl;
 }
 
 void Game::printVector(vector<pii> v)

@@ -45,22 +45,24 @@ int evaluateGame (Game* game, color)
 
 
 }
-
-
-
-
-
-
-
-
 int color;
 int n;
 int m;
 float time_left;
 Game*game;
 
-//Choosing and playing my Move
+MinVal ()
 void chooseAndPlayMove(int color)
+{
+    vector<pii> mySoldiers;
+    if (color==0)
+            mySoldiers = game->getBlackSoldiers();
+        else
+            mySoldiers = game->getWhiteSoldiers();
+}
+
+//Choosing and playing Random Move
+void chooseAndPlayRandomMove(int color)
 {
     vector<pii> mySoldiers;
     while(true)
@@ -145,7 +147,7 @@ int main()
     {
         //My Move
         // cout<<"RANDOMPLAYER'S MOVE"<<endl<<endl;
-        chooseAndPlayMove(color);
+        chooseAndPlayRandomMove(color);
     }
     while(true)
     {
@@ -166,7 +168,7 @@ int main()
         
         //My Move
         // cout<<"RANDOMPLAYER'S MOVE"<<endl<<endl;
-        chooseAndPlayMove(color);
+        chooseAndPlayRandomMove(color);
     }
     return 0;
 }

@@ -155,6 +155,17 @@ Game::Game(int nIn, int mIn)
     }
 }
 
+Game::Game(Game& game)
+{
+	this.blackSoldiers = game.getBlackSoldiers();
+	this.whiteSoldiers = game.getWhiteSoldiers();
+	this.blackTownHalls = game.getBlackTownHalls();
+	this.whiteTownHalls = game.getWhiteTownHalls();
+	this.board = game.getBoard();
+	this.n = game.getN();
+	this.m = game.getM();
+}
+
 void Game::play(pii soldierPosition, pii finalPosition, char action, int color)
 {
     //move is of the form  :      S x y M/B a b
@@ -458,6 +469,18 @@ vector<pii> Game::getWhiteTownHalls()
 	return whiteTownHalls;
 }
 
+vector<vector<int> > Game::getBoard()
+{
+	return board;
+}
+int Game::getN()
+{
+	return n;
+}
+int Game::getM()
+{
+	return m;
+}
 void Game::printBoard()
 {
 	;

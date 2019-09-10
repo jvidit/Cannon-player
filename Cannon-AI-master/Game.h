@@ -71,7 +71,10 @@ public:
     vector<pii> getBlackTownHalls();
     vector<pii> getWhiteSoldiers();
     vector<pii> getWhiteTownHalls();
-    
+    vector<vector<int> > getBoard();
+    int getN();
+    int getM();
+
     void printBoard();
     void printVector(vector<pii> v);
     

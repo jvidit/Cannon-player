@@ -28,6 +28,31 @@ using namespace std;
 #define pll pair<ll,ll>
 #define pii pair<int, int>
 
+int evaluateGame (Game* game, color)
+{
+    int ws = 1; wth = 100;
+    vector<pii> blackSoldiers = getBlackSoldiers();
+    vector<pii> whiteSoldiers = getWhiteSoldiers();
+    vector<pii> blackTownHalls = getBlackTownHalls();
+    vector<pii> whiteTownHalls = getWhiteTownHalls();
+
+    evaluationBlack = ws*(blackSoldiers.size() - whiteSoldiers.size()) + wth*(blackTownHalls.size() - whiteTownHalls.size());
+
+    if color == 0
+        return evaluationBlack;
+    else
+        return -evaluationBlack;
+
+
+}
+
+
+
+
+
+
+
+
 int color;
 int n;
 int m;

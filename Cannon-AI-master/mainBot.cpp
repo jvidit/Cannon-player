@@ -33,7 +33,7 @@ int n;
 int m;
 float time_left;
 Game*game;
-int maxDepth = 5;
+int maxDepth = 4;
 
 float evaluateGame (Game* game);
 float minVal(Game *state, float alpha, float beta, int depth);
@@ -43,6 +43,9 @@ void chooseAndPlayMove();
 void chooseAndPlayRandomMove(int color);
 void possibleOpponentMoves(int color);
 
+
+
+fstream f;
 
 
 int main()
@@ -104,7 +107,7 @@ float evaluateGame (Game* game)
 
     // if(evaluationBlack>1000000)
     // {
-    // 	cout<<-(whiteSoldiers.size())<<" "<<wth*(blackTownHalls.size() - whiteTownHalls.size())<<" "<<evaluationBlack<<endl;
+    //  cout<<-(whiteSoldiers.size())<<" "<<wth*(blackTownHalls.size() - whiteTownHalls.size())<<" "<<evaluationBlack<<endl;
     // }
 
     if (!color)
@@ -116,14 +119,14 @@ float evaluateGame (Game* game)
 
 float minVal(Game *state, float alpha, float beta, int depth)
 {
-	// cout<<depth<<endl;
-	//pseudo leaf
-	if(depth==maxDepth)
-		return evaluateGame(state);
+    // cout<<depth<<endl;
+    //pseudo leaf
+    if(depth==maxDepth)
+        return evaluateGame(state);
 
-	bool hasChildren = false;
+    bool hasChildren = false;
 
-	vector<pii> opponentSoldiers;
+    vector<pii> opponentSoldiers;
 
 
     if (color)
@@ -134,49 +137,49 @@ float minVal(Game *state, float alpha, float beta, int depth)
 
     for(int i=0;i<opponentSoldiers.size();i++)
     {
-    	pii chosenSoldier = opponentSoldiers[i];
-    	vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier, (color+1)%2);
-    	vector<pii> bombsForChosenSoldier = game->validBombs(chosenSoldier, (color+1)%2);
+        pii chosenSoldier = opponentSoldiers[i];
+        vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier, (color+1)%2);
+        vector<pii> bombsForChosenSoldier = game->validBombs(chosenSoldier, (color+1)%2);
 
-    	for(int j = 0;j<movesForChosenSoldier.size();j++)
-    	{
-    		hasChildren = true;
-    		Game* childState = new Game(*state);
-    		childState->play(chosenSoldier, movesForChosenSoldier[j], 'M', (color+1)%2);
-    		float childStateValue = maxVal(childState, alpha, beta, depth+1);
-    		beta = min(beta,childStateValue);
-     		if (alpha>=beta) 
-     			return childStateValue;
-    	}
+        for(int j = 0;j<movesForChosenSoldier.size();j++)
+        {
+            hasChildren = true;
+            Game* childState = new Game(*state);
+            childState->play(chosenSoldier, movesForChosenSoldier[j], 'M', (color+1)%2);
+            float childStateValue = maxVal(childState, alpha, beta, depth+1);
+            beta = min(beta,childStateValue);
+            if (alpha>=beta) 
+                return childStateValue;
+        }
 
-    	for(int j = 0;j<bombsForChosenSoldier.size();j++)
-    	{
-    		hasChildren = true;
-    		Game* childState = new Game(*state);
-    		childState->play(chosenSoldier, bombsForChosenSoldier[j], 'B', (color+1)%2);
-    		float childStateValue = maxVal(childState, alpha, beta, depth+1);
-    		beta = min(beta,childStateValue);
-     		if (alpha>=beta) 
-     			return childStateValue;
-    	}
+        for(int j = 0;j<bombsForChosenSoldier.size();j++)
+        {
+            hasChildren = true;
+            Game* childState = new Game(*state);
+            childState->play(chosenSoldier, bombsForChosenSoldier[j], 'B', (color+1)%2);
+            float childStateValue = maxVal(childState, alpha, beta, depth+1);
+            beta = min(beta,childStateValue);
+            if (alpha>=beta) 
+                return childStateValue;
+        }
     }
 
     if(!hasChildren)
-    	return evaluateGame(state);
+        return evaluateGame(state);
 
     return beta;
 }
 
 float maxVal(Game *state, float alpha, float beta, int depth)
 {
-	// cout<<depth<<endl;
-	//pseudo leaf
-	if(depth==maxDepth)
-		return evaluateGame(state);
+    // cout<<depth<<endl;
+    //pseudo leaf
+    if(depth==maxDepth)
+        return evaluateGame(state);
 
-	bool hasChildren = false;
+    bool hasChildren = false;
 
-	vector<pii> mySoldiers;
+    vector<pii> mySoldiers;
 
 
     if (!color)
@@ -187,35 +190,35 @@ float maxVal(Game *state, float alpha, float beta, int depth)
 
     for(int i=0;i<mySoldiers.size();i++)
     {
-    	pii chosenSoldier = mySoldiers[i];
-    	vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier,color);
-    	vector<pii> bombsForChosenSoldier = game->validBombs(chosenSoldier,color);
+        pii chosenSoldier = mySoldiers[i];
+        vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier,color);
+        vector<pii> bombsForChosenSoldier = game->validBombs(chosenSoldier,color);
 
-    	for(int j = 0;j<movesForChosenSoldier.size();j++)
-    	{
-    		hasChildren = true;
-    		Game* childState = new Game(*state);
-    		childState->play(chosenSoldier, movesForChosenSoldier[j], 'M', color);
-    		float childStateValue = minVal(childState, alpha, beta, depth+1);
-    		alpha = max(alpha,childStateValue);
-     		if (alpha>=beta) 
-     			return childStateValue;
-    	}
+        for(int j = 0;j<movesForChosenSoldier.size();j++)
+        {
+            hasChildren = true;
+            Game* childState = new Game(*state);
+            childState->play(chosenSoldier, movesForChosenSoldier[j], 'M', color);
+            float childStateValue = minVal(childState, alpha, beta, depth+1);
+            alpha = max(alpha,childStateValue);
+            if (alpha>=beta) 
+                return childStateValue;
+        }
 
-    	for(int j = 0;j<bombsForChosenSoldier.size();j++)
-    	{
-    		hasChildren = true;
-    		Game* childState = new Game(*state);
-    		childState->play(chosenSoldier, bombsForChosenSoldier[j], 'B', color);
-    		float childStateValue = minVal(childState, alpha, beta, depth+1);
-    		alpha = max(alpha,childStateValue);
-     		if (alpha>=beta) 
-     			return childStateValue;
-    	}
+        for(int j = 0;j<bombsForChosenSoldier.size();j++)
+        {
+            hasChildren = true;
+            Game* childState = new Game(*state);
+            childState->play(chosenSoldier, bombsForChosenSoldier[j], 'B', color);
+            float childStateValue = minVal(childState, alpha, beta, depth+1);
+            alpha = max(alpha,childStateValue);
+            if (alpha>=beta) 
+                return childStateValue;
+        }
     }
 
     if(!hasChildren)
-    	return evaluateGame(state);
+        return evaluateGame(state);
 
     return alpha;
 }
@@ -224,11 +227,11 @@ float maxVal(Game *state, float alpha, float beta, int depth)
 void chooseAndPlayMove()
 {
 
-	float alpha = -INT_MAX;
-	float beta = INT_MAX;
+    float alpha = -INT32_MAX;
+    float beta = INT32_MAX;
 
-	pii soldierPosition, finalPosition;
-	char action;
+    pii soldierPosition, finalPosition;
+    char action;
 
 
     vector<pii> mySoldiers;
@@ -238,59 +241,61 @@ void chooseAndPlayMove()
         mySoldiers = game->getWhiteSoldiers();
 
 
+    // game->printVector(mySoldiers);
+    // game->printBoard();
     for(int i=0;i<mySoldiers.size();i++)
     {
-    	// cout<<i<<" ";
-    	pii chosenSoldier = mySoldiers[i];
-    	vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier,color);
-    	vector<pii> bombsForChosenSoldier = game->validBombs(chosenSoldier,color);
+        // cout<<i<<" ";
+        pii chosenSoldier = mySoldiers[i];
+        vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier,color);
+        vector<pii> bombsForChosenSoldier = game->validBombs(chosenSoldier,color);
 
-    	for(int j = 0;j<movesForChosenSoldier.size();j++)
-    	{
-    		// cout<<j<<" ";
-    		Game* childState = new Game(*game);
-    		childState->play(chosenSoldier, movesForChosenSoldier[j], 'M', color);
+        for(int j = 0;j<movesForChosenSoldier.size();j++)
+        {
+            // cout<<j<<" ";
+            Game* childState = new Game(*game);
+            childState->play(chosenSoldier, movesForChosenSoldier[j], 'M', color);
 
-    		float childStateValue = minVal(childState, alpha, beta, 1);
-
-
-    		// cout<<childStateValue<<endl;
-    		// childState->printBoard();
-    		if(childStateValue>alpha)
-    		{
-    			alpha = childStateValue;
-    			soldierPosition = mySoldiers[i];
-    			finalPosition = movesForChosenSoldier[j];
-    			action = 'M';
-    		}
-     		
-    	}
-
-    	for(int j = 0;j<bombsForChosenSoldier.size();j++)
-    	{
-    		
-    		Game* childState = new Game(*game);
-    		childState->play(chosenSoldier, bombsForChosenSoldier[j], 'B', color);
+            float childStateValue = minVal(childState, alpha, beta, 1);
 
 
-			float childStateValue = minVal(childState, alpha, beta, 1);
-    		
-    		// cout<<childStateValue<<endl;
-    		// childState->printBoard();
-			if(childStateValue>alpha)
-    		{
-    			alpha = childStateValue;
-    			soldierPosition = mySoldiers[i];
-    			finalPosition = bombsForChosenSoldier[j];
-    			action = 'B';
-    		}
-     		
-    	}
+            // cout<<childStateValue<<endl;
+            // childState->printBoard();
+            if(childStateValue>alpha)
+            {
+                alpha = childStateValue;
+                soldierPosition = mySoldiers[i];
+                finalPosition = movesForChosenSoldier[j];
+                action = 'M';
+            }
+            
+        }
+
+        for(int j = 0;j<bombsForChosenSoldier.size();j++)
+        {
+            
+            Game* childState = new Game(*game);
+            childState->play(chosenSoldier, bombsForChosenSoldier[j], 'B', color);
+
+
+            float childStateValue = minVal(childState, alpha, beta, 1);
+            
+            // cout<<childStateValue<<endl;
+            // childState->printBoard();
+            if(childStateValue>alpha)
+            {
+                alpha = childStateValue;
+                soldierPosition = mySoldiers[i];
+                finalPosition = bombsForChosenSoldier[j];
+                action = 'B';
+            }
+            
+        }
     }
     
 
     cout<< "S " + to_string(soldierPosition.first) + " " + to_string(soldierPosition.second) + " " + string(1,action) + " " + to_string(finalPosition.first) + " " + to_string(finalPosition.second)<<endl;
-   	game->play(soldierPosition, finalPosition, action, color);
+    game->play(soldierPosition, finalPosition, action, color);
 
 }
 
@@ -321,7 +326,7 @@ void chooseAndPlayRandomMove(int color)
                 char action = 'M';
                 game->play(soldierPosition,finalPosition,action,color);
                 cout<< "S " + to_string(soldierPosition.first) + " " + to_string(soldierPosition.second) + " M " + to_string(finalPosition.first) + " " + to_string(finalPosition.second)<<endl;
-                game->printBoard();
+                // game->printBoard();
                 break;
             }
         }
@@ -337,7 +342,7 @@ void chooseAndPlayRandomMove(int color)
                 char action = 'B';
                 game->play(soldierPosition,finalPosition,action,color);
                 cout<< "S " + to_string(soldierPosition.first) + " " + to_string(soldierPosition.second) + " B " + to_string(finalPosition.first) + " " + to_string(finalPosition.second)<<endl;
-                game->printBoard();
+                // game->printBoard();
                 break;
             }
         }
@@ -361,9 +366,6 @@ void possibleOpponentMoves(int color)
         vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier, (color+1)%2);
     }
 }
-
-
-
 
 
 

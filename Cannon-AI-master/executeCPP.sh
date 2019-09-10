@@ -1,3 +1,3 @@
 #!/bin/bash
-g++ RandomPlayer.cpp -o main
+g++ RandomPlayer.cpp Game.cpp Game.h -o main
 ./main

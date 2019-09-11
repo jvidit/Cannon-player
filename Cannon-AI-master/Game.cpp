@@ -326,7 +326,7 @@ vector<pii> Game::validMoves(pii soldierPosition, int color)
     
     
     // cout<<"SOLDIER MOVES "<<soldierPosition.first<<" "<<soldierPosition.second<<endl;
-    // printVector(moves);
+    printVector(moves);
     // cout<<endl;
     return moves;
 }
@@ -440,7 +440,7 @@ vector<pii> Game::validBombs(pii soldierPosition, int color)
     }
     
     // cout<<"SOLDIER BOMBS "<<soldierPosition.first<<" "<<soldierPosition.second<<endl;
-    // printVector(moves);
+    printVector(moves);
     // cout<<endl;
     return moves;
 }
@@ -504,8 +504,23 @@ void Game::printBoard()
 void Game::printVector(vector<pii> v)
 {
 	;
-    for(int i=0;i<v.size();i++)
-        cout<<v[i].first<<" "<<v[i].second<<endl;
+    // for(int i=0;i<v.size();i++)
+    //     cout<<v[i].first<<" "<<v[i].second<<endl;
 }
 
+bool Game::hasSoldier(pii position)
+{
+    if ((board[position.first][position.second] == WhiteSoldier) || (board[position.first][position.second] == BlackSoldier) )
+        return true;
+    else 
+        return false;
+}
+
+bool Game::hasTownHall(pii position)
+{
+    if ((board[position.first][position.second] == WhiteTownHall) || (board[position.first][position.second] == BlackTownHall) )
+        return true;
+    else 
+        return false;
+}
 

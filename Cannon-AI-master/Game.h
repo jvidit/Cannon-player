@@ -78,6 +78,9 @@ public:
 
     void printBoard();
     void printVector(vector<pii> v);
+
+    bool hasSoldier(pii position);
+    bool hasTownHall(pii position);
     
 };
 

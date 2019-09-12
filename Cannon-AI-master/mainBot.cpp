@@ -35,7 +35,7 @@ int m;
 float time_left;
 Game*game;
 EvaluateGame*evalGame;
-int maxDepth = 4;
+int maxDepth = 3;
 
 
 float evaluateGame (Game* game);
@@ -510,8 +510,3 @@ void possibleOpponentMoves(int color)
         vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier, (color+1)%2);
     }
 }
-
-
-
-
-

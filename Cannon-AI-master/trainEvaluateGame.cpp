@@ -161,14 +161,15 @@ EvaluateGame::EvaluateGame()
     
     wathb = 80;
     wathm = 50;
-
+    
     wasb = 20;
     wasm = 10;
-
+    
     wnab = 5;
     wnam = 1;
     
 }
+
 
 
 

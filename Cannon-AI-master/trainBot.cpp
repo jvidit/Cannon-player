@@ -14,7 +14,7 @@
 #include <chrono>
 #include <tuple>
 #include "Game.h"
-#include "EvaluateGame.h"
+#include "trainEvaluateGame.h"
 
 using namespace std;
 
@@ -35,7 +35,7 @@ int m;
 float time_left;
 Game*game;
 EvaluateGame*evalGame;
-int maxDepth = 2;
+int maxDepth = 4;
 
 
 float evaluateGame (Game* game);
@@ -102,7 +102,7 @@ float evaluateGame (Game* game)
 {
     float pieceEval = evalGame->countPieces(game, color);
     float attackEval = evalGame->countAttacks(game, color);
-    return attackEval;
+    return pieceEval + attackEval;
 }
 
 
@@ -309,7 +309,7 @@ float maxVal(Game *state, float alpha, float beta, int depth)
 }
 
 
-//for expectiVal
+// //for expectiVal
 // float maxVal(Game *state, float alpha, float beta, int depth)
 // {
 //     // cout<<depth<<endl;
@@ -510,8 +510,3 @@ void possibleOpponentMoves(int color)
         vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier, (color+1)%2);
     }
 }
-
-
-
-
-

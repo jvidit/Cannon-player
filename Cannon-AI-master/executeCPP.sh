@@ -1,3 +1,3 @@
 #!/bin/bash
-g++ -std=c++11 test.cpp -o main
+g++ -std=c++11 noobda.cpp -o main
 ./main

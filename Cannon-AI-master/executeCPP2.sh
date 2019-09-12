@@ -1,3 +1,3 @@
 #!/bin/bash
-g++ trainBot.cpp Game.cpp EvaluateGame.cpp -o main
+g++ trainBot.cpp Game.cpp trainEvaluateGame.cpp -o main
 ./main

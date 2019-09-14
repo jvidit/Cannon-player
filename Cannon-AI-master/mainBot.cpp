@@ -237,6 +237,12 @@ float expectiVal(Game *state, float alpha, float beta, int depth)
             Game* childState = new Game(*state);
             childState->play(chosenSoldier, bombsForChosenSoldier[j], 'B', (color+1)%2);
             float childStateValue = maxVal(childState, alpha, beta, depth+1);
+
+            // f.open("/home/ashish/Desktop/COL333/A2/Cannon-player/Cannon-AI-master/test.txt",fstream::app);
+            // f<<bombsForChosenSoldier[j].first<<" "<<bombsForChosenSoldier[j].second<<" "<<childStateValue<<endl;
+            // f.close();
+            
+            
             childStateValues.pb(childStateValue);
 
             delete childState;
@@ -293,6 +299,10 @@ float maxVal(Game *state, float alpha, float beta, int depth)
             Game* childState = new Game(*state);
             childState->play(chosenSoldier, bombsForChosenSoldier[j], 'B', color);
             float childStateValue = minVal(childState, alpha, beta, depth+1);
+
+            // f.open("/home/ashish/Desktop/COL333/A2/Cannon-player/Cannon-AI-master/test.txt",fstream::app);
+            // f<<bombsForChosenSoldier[j].first<<" "<<bombsForChosenSoldier[j].second<<" "<<childStateValue<<endl;
+            // f.close();
             alpha = max(alpha,childStateValue);
 
 

@@ -43,6 +43,7 @@ class EvaluateGame
     float wnab;
     float wathb;
     float wasb;
+    float wpthb;
 
 public:
     

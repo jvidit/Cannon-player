@@ -147,6 +147,9 @@ float EvaluateGame::countAttacks(Game* game, int color)
 	countAttacksBlack +=  wathb*(AttackingTHBombsBlack - AttackingTHBombsWhite);
 	countAttacksBlack += wasb*(AttackingSBombsBlack - AttackingSBombsWhite);
 
+    // if ((game->getWhiteTownHalls().size()==2 && color==0) || (game->getBlackTownHalls().size()==2 && color==1))
+    //     countAttacksBlack += 10*wth;
+
 	if (!color)
         return countAttacksBlack;
     else

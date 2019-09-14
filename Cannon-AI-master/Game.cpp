@@ -445,6 +445,38 @@ vector<pii> Game::validBombs(pii soldierPosition, int color)
     return moves;
 }
 
+int Game::possibleBombs(pii soldierPosition, int color)
+{
+    
+    int x = soldierPosition.first, y = soldierPosition.second;
+    int possibleBombs = 0;
+    
+    //check vertical cannon
+    if(y-1>=0 && y+1<=m-1)
+    {
+        if(board[x][y-1]==board[x][y] && board[x][y+1]==board[x][y])
+        {
+            if (!color)
+            {
+                if(y==3 && board[x][0]==WhiteTownHall && board[x][1]==WhiteSoldier && board[x][5]==Empty)
+                    possibleBombs++;
+                if(y==5 && board[x][0]==WhiteTownHall && board[x][2]==Empty && board[x][3]==Empty)
+                    possibleBombs++;
+            }
+
+            else
+            {
+                if(y==m-4 && board[x][m-1]==BlackTownHall && board[x][m-2]==BlackSoldier && board[x][m-6]==Empty)
+                    possibleBombs++;
+                if(y==m-6 && board[x][m-1]==BlackTownHall && board[x][m-3]==Empty && board[x][m-4]==Empty)
+                    possibleBombs++;
+            }
+        }
+    }
+    
+    return possibleBombs;
+}
+
 vector<pii> Game::getBlackSoldiers()
 {   
 	// printVector(blackSoldiers);  

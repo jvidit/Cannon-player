@@ -35,7 +35,7 @@ int m;
 float time_left;
 Game*game;
 EvaluateGame*evalGame;
-int maxDepth = 4;
+int maxDepth = 3;
 
 
 float evaluateGame (Game* game);
@@ -136,6 +136,10 @@ float minVal(Game *state, float alpha, float beta, int depth)
             Game* childState = new Game(*state);
             childState->play(chosenSoldier, movesForChosenSoldier[j], 'M', (color+1)%2);
             float childStateValue = maxVal(childState, alpha, beta, depth+1);
+
+            // f.open("/home/ashish/Desktop/COL333/A2/Cannon-player/Cannon-AI-master/test.txt",fstream::app);
+            // f<<bombsForChosenSoldier[j].first<<" "<<bombsForChosenSoldier[j].first<<" "<<childStateValue<<endl;
+            // f.close();
             beta = min(beta,childStateValue);
 
             delete childState;
@@ -226,6 +230,12 @@ float expectiVal(Game *state, float alpha, float beta, int depth)
             Game* childState = new Game(*state);
             childState->play(chosenSoldier, movesForChosenSoldier[j], 'M', (color+1)%2);
             float childStateValue = maxVal(childState, alpha, beta, depth+1);
+
+            f.open("/home/ashish/Desktop/COL333/A2/Cannon-player/Cannon-AI-master/test.txt",fstream::app);
+            if(chosenSoldier.first==2 && chosenSoldier.second ==4)
+                f<<movesForChosenSoldier[j].first<<" M "<<movesForChosenSoldier[j].second<<" "<<childStateValue<<endl;
+            f.close();
+
             childStateValues.pb(childStateValue);
 
             delete childState;
@@ -237,6 +247,12 @@ float expectiVal(Game *state, float alpha, float beta, int depth)
             Game* childState = new Game(*state);
             childState->play(chosenSoldier, bombsForChosenSoldier[j], 'B', (color+1)%2);
             float childStateValue = maxVal(childState, alpha, beta, depth+1);
+
+            f.open("/home/ashish/Desktop/COL333/A2/Cannon-player/Cannon-AI-master/test.txt",fstream::app);
+            if(chosenSoldier.first==2 && chosenSoldier.second ==4)
+                f<<bombsForChosenSoldier[j].first<<" M "<<bombsForChosenSoldier[j].second<<" "<<childStateValue<<endl;
+            f.close();
+
             childStateValues.pb(childStateValue);
 
             delete childState;
@@ -279,7 +295,14 @@ float maxVal(Game *state, float alpha, float beta, int depth)
             hasChildren = true;
             Game* childState = new Game(*state);
             childState->play(chosenSoldier, movesForChosenSoldier[j], 'M', color);
+            
             float childStateValue = minVal(childState, alpha, beta, depth+1);
+
+            f.open("/home/ashish/Desktop/COL333/A2/Cannon-player/Cannon-AI-master/test.txt",fstream::app);
+            if(chosenSoldier.first==2 && chosenSoldier.second ==4)
+                f<<movesForChosenSoldier[j].first<<" M "<<movesForChosenSoldier[j].second<<" "<<childStateValue<<endl;
+            f.close();
+
             alpha = max(alpha,childStateValue);
 
             delete childState;
@@ -293,6 +316,12 @@ float maxVal(Game *state, float alpha, float beta, int depth)
             Game* childState = new Game(*state);
             childState->play(chosenSoldier, bombsForChosenSoldier[j], 'B', color);
             float childStateValue = minVal(childState, alpha, beta, depth+1);
+
+            f.open("/home/ashish/Desktop/COL333/A2/Cannon-player/Cannon-AI-master/test.txt",fstream::app);
+            if(chosenSoldier.first==2 && chosenSoldier.second ==4)
+                f<<bombsForChosenSoldier[j].first<<" B "<<bombsForChosenSoldier[j].second<<" "<<childStateValue<<endl;
+            f.close();
+
             alpha = max(alpha,childStateValue);
 
 

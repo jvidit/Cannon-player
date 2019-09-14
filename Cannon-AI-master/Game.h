@@ -81,6 +81,7 @@ public:
 
     bool hasSoldier(pii position);
     bool hasTownHall(pii position);
+    int possibleBombs(pii soldierPosition, int color);
     
 };
 

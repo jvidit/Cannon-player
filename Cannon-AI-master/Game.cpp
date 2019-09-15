@@ -310,15 +310,15 @@ vector<pii> Game::validMoves(pii soldierPosition, int color)
         moves.pb(mp(x,y+3));
     
     //diagnol top right
-    if(y-3>=0 && x+3<=n-1 && board[x+1][y-1]==board[x][y] && board[x+2][y-2] && board[x+3][y-3]==Empty)
+    if(y-3>=0 && x+3<=n-1 && board[x+1][y-1]==board[x][y] && board[x+2][y-2]==board[x][y] && board[x+3][y-3]==Empty)
         moves.pb(mp(x+3,y-3));
-    if(y+3<=m-1 && x-3>=0 && board[x-1][y+1]==board[x][y] && board[x-2][y+2] && board[x-3][y+3]==Empty)
+    if(y+3<=m-1 && x-3>=0 && board[x-1][y+1]==board[x][y] && board[x-2][y+2]==board[x][y] && board[x-3][y+3]==Empty)
         moves.pb(mp(x-3,y+3));
     
     //diagnol top left
-    if(y-3>=0 && x-3>=0 && board[x-1][y-1]==board[x][y] && board[x-2][y-2] && board[x-3][y-3]==Empty)
+    if(y-3>=0 && x-3>=0 && board[x-1][y-1]==board[x][y] && board[x-2][y-2]==board[x][y] && board[x-3][y-3]==Empty)
         moves.pb(mp(x-3,y-3));
-    if(y+3<=m-1 && x+3<=n-1 && board[x+1][y+1]==board[x][y] && board[x+2][y+2] && board[x+3][y+3]==Empty)
+    if(y+3<=m-1 && x+3<=n-1 && board[x+1][y+1]==board[x][y] && board[x+2][y+2]==board[x][y] && board[x+3][y+3]==Empty)
         moves.pb(mp(x+3,y+3));
     
     
@@ -326,7 +326,7 @@ vector<pii> Game::validMoves(pii soldierPosition, int color)
     
     
     // cout<<"SOLDIER MOVES "<<soldierPosition.first<<" "<<soldierPosition.second<<endl;
-    printVector(moves);
+    // printVector(moves);
     // cout<<endl;
     return moves;
 }
@@ -440,7 +440,7 @@ vector<pii> Game::validBombs(pii soldierPosition, int color)
     }
     
     // cout<<"SOLDIER BOMBS "<<soldierPosition.first<<" "<<soldierPosition.second<<endl;
-    printVector(moves);
+    // printVector(moves);
     // cout<<endl;
     return moves;
 }
@@ -536,8 +536,8 @@ void Game::printBoard()
 void Game::printVector(vector<pii> v)
 {
 	;
-    // for(int i=0;i<v.size();i++)
-    //     cout<<v[i].first<<" "<<v[i].second<<endl;
+    for(int i=0;i<v.size();i++)
+        cout<<v[i].first<<" "<<v[i].second<<endl;
 }
 
 bool Game::hasSoldier(pii position)

@@ -1,5 +1,5 @@
-#ifndef TRAINEVALUATEGAME_H
-#define TRAINEVALUATEGAME_H
+#ifndef TEMPEVALUATEGAME_H
+#define TEMPEVALUATEGAME_H
 
 #include <iostream>
 #include <cmath>
@@ -43,7 +43,6 @@ class EvaluateGame
     float wnab;
     float wathb;
     float wasb;
-    float wpthb;
 
 public:
     

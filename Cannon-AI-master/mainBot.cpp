@@ -102,7 +102,10 @@ float evaluateGame (Game* game)
 {
     float pieceEval = evalGame->countPieces(game, color);
     float attackEval = evalGame->countAttacks(game, color);
-    return pieceEval + attackEval;
+    float totEval = pieceEval + attackEval;
+    totEval = (float)((int)totEval/7);
+
+    return totEval;
 }
 
 

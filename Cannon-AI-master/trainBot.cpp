@@ -416,6 +416,10 @@ void chooseAndPlayMove()
     else
         mySoldiers = game->getWhiteSoldiers();
 
+    // f.open("/Users/jvidit/Documents/sem5/col333/assignments/assignment-2/Cannon-player/Cannon-AI-master/test.txt",fstream::app);
+    // f<<"\n\n\n\n\n\n\n\n\n";
+    // f.close();
+
 
     // game->printVector(mySoldiers);
     // game->printBoard();
@@ -426,17 +430,23 @@ void chooseAndPlayMove()
         vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier,color);
         vector<pii> bombsForChosenSoldier = game->validBombs(chosenSoldier,color);
 
+        // f.open("/Users/jvidit/Documents/sem5/col333/assignments/assignment-2/Cannon-player/Cannon-AI-master/test.txt",fstream::app);
+        // cout<<"\n"<<chosenSoldier.first<<" "<<chosenSoldier.second<<" S "<<endl;
+        // f.close();
+        
+
         for(int j = 0;j<movesForChosenSoldier.size();j++)
         {
             // cout<<j<<" ";
             Game* childState = new Game(*game);
             childState->play(chosenSoldier, movesForChosenSoldier[j], 'M', color);
 
-            float childStateValue = minVal(childState, alpha, beta, 1);
+            float childStateValue = minVal(childState, -INT32_MAX, beta, 1);
 
             // f.open("/Users/jvidit/Documents/sem5/col333/assignments/assignment-2/Cannon-player/Cannon-AI-master/test.txt",fstream::app);
-            // if(chosenSoldier.first==0 && chosenSoldier.second ==4)
-            //     f<<movesForChosenSoldier[j].first<<" "<<movesForChosenSoldier[j].second<<" M "<<childStateValue<<endl;
+            // if(chosenSoldier.first==7 && chosenSoldier.second ==3)
+                
+            // cout<<movesForChosenSoldier[j].first<<" "<<movesForChosenSoldier[j].second<<" M "<<childStateValue<<endl;
             // if(chosenSoldier.first==3 && chosenSoldier.second ==3)
             //     f<<movesForChosenSoldier[j].first<<" "<<movesForChosenSoldier[j].second<<" M "<<childStateValue<<endl;
             // f.close();
@@ -464,13 +474,12 @@ void chooseAndPlayMove()
             childState->play(chosenSoldier, bombsForChosenSoldier[j], 'B', color);
 
 
-            float childStateValue = minVal(childState, alpha, beta, 1);
-
+            float childStateValue = minVal(childState, -INT32_MAX, beta, 1);
 
             
             // f.open("/Users/jvidit/Documents/sem5/col333/assignments/assignment-2/Cannon-player/Cannon-AI-master/test.txt",fstream::app);
-            // if(chosenSoldier.first==0 && chosenSoldier.second ==4)
-            //     f<<bombsForChosenSoldier[j].first<<" "<<bombsForChosenSoldier[j].second<<" B "<<childStateValue<<endl;
+            // if(chosenSoldier.first==7 && chosenSoldier.second ==3)
+            // cout<<bombsForChosenSoldier[j].first<<" "<<bombsForChosenSoldier[j].second<<" B "<<childStateValue<<endl;
             // if(chosenSoldier.first==3 && chosenSoldier.second ==3)
             //     f<<bombsForChosenSoldier[j].first<<" "<<bombsForChosenSoldier[j].second<<" B "<<childStateValue<<endl;
             // f.close();

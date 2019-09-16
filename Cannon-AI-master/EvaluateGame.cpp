@@ -147,20 +147,35 @@ float EvaluateGame::countAttacks(Game* game, int color)
     	}
     }
 
-    float countAttacksBlack = wnam*(nonAttackingMovesBlack -nonAttackingMovesWhite);
-    countAttacksBlack += wathm*(AttackingTHMovesBlack - AttackingTHMovesWhite);
-	countAttacksBlack += wasm*(AttackingSMovesBlack -AttackingSMovesWhite);
-	countAttacksBlack += wnab*(nonAttackingBombsBlack - nonAttackingBombsWhite);
-	countAttacksBlack += wathb*(AttackingTHBombsBlack - AttackingTHBombsWhite);
-	countAttacksBlack += wasb*(AttackingSBombsBlack - AttackingSBombsWhite);
-    countAttacksBlack += wpthb*(possibleTHBombBlack - possibleTHBombWhite);
 
-    // if ((game->getWhiteTownHalls().size()==2 && color==0) || (game->getBlackTownHalls().size()==2 && color==1))
-    //     countAttacksBlack += 10*wth;
+    float countAttacksBlack = wnam*nonAttackingMovesBlack
+                        +     wathm*AttackingTHMovesBlack
+                        +     wasm*AttackingSMovesBlack
+                        +     wnab*nonAttackingBombsBlack
+                        +     wathb*AttackingTHBombsBlack
+                        +     wasb*AttackingSBombsBlack
+                        +     wpthb*possibleTHBombBlack;
+
+    float countAttacksWhite = wnam*nonAttackingMovesWhite
+                        +     wathm*AttackingTHMovesWhite
+                        +     wasm*AttackingSMovesWhite
+                        +     wnab*nonAttackingBombsWhite
+                        +     wathb*AttackingTHBombsWhite
+                        +     wasb*AttackingSBombsWhite
+                        +     wpthb*possibleTHBombWhite;
+
+
+    float wOffense = ((float) game->getBlackSoldiers().size())/10;
+    float wDefense = ((float) game->getWhiteSoldiers().size())/10;
+
+    float blackEval = wOffense * countAttacksBlack - wDefense * countAttacksWhite;
+
+
+
 	if (!color)
-        return countAttacksBlack;
+        return blackEval;
     else
-        return -1*countAttacksBlack;
+        return -1*blackEval;
 }
 
 
@@ -178,7 +193,11 @@ EvaluateGame::EvaluateGame()
     wnab = 5;
     wnam = 0;
 
-    wpthb =  40;  //possible town hall bomb
+    wpthb =  20;  //possible town hall bomb
+
+
+
+
     
 }
 

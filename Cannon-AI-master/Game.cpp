@@ -185,6 +185,11 @@ vector<pii> Game::validMoves(pii soldierPosition, int color)
     vector<pii> moves;
     int x = soldierPosition.first, y = soldierPosition.second;
     //white Soldier
+
+    if(whiteTownHalls.size()<=2 || blackTownHalls.size()<=2)
+        return moves;
+
+
     if(color)
     {
         //forward move
@@ -336,6 +341,8 @@ vector<pii> Game::validBombs(pii soldierPosition, int color)
     vector<pii> moves;
     int x = soldierPosition.first, y = soldierPosition.second;
     
+    if(whiteTownHalls.size()<=2 || blackTownHalls.size()<=2)
+        return moves;
     
     //White cannon
     int soldier, townHall;

@@ -33,6 +33,10 @@ int color;
 int n;
 int m;
 float time_left;
+
+float const timeThreshold = 200;
+int const soldierThreshold = 0;
+
 Game*game;
 EvaluateGame*evalGame;
 int maxDepth = 3;
@@ -54,6 +58,8 @@ fstream f;
 
 int main()
 {
+
+
     cin>>color;
     color = color-1;
     cin>>n;
@@ -71,7 +77,9 @@ int main()
     {
         //My Move
         // cout<<"RANDOMPLAYER'S MOVE"<<endl<<endl;
+        float tStart = clock();
         chooseAndPlayMove();
+        time_left -= (clock() - tStart)/1000000;
     }
     while(true)
     {
@@ -88,11 +96,27 @@ int main()
         cin>>action;
         cin>>finalPosition.first;
         cin>>finalPosition.second;
+
+
         game->play(soldierPosition,finalPosition,action,(color+1)%2);
         
         //My Move
         // cout<<"RANDOMPLAYER'S MOVE"<<endl<<endl;
+        float tStart = clock();
         chooseAndPlayMove();
+        time_left -= (clock() - tStart)/1000000;
+
+
+        vector<pii> ownSoldiers; 
+        if(color)
+            ownSoldiers = game->getWhiteSoldiers();
+        else
+            ownSoldiers = game->getBlackSoldiers();
+
+        if(time_left>=timeThreshold && ownSoldiers.size()<=soldierThreshold)
+            maxDepth = 5;
+        else
+            maxDepth = 3;
     }
     return 0;
 }
@@ -122,16 +146,16 @@ float minVal(Game *state, float alpha, float beta, int depth)
 
 
     if (color)
-        opponentSoldiers = game->getBlackSoldiers();
+        opponentSoldiers = state->getBlackSoldiers();
     else
-        opponentSoldiers = game->getWhiteSoldiers();
+        opponentSoldiers = state->getWhiteSoldiers();
 
 
     for(int i=0;i<opponentSoldiers.size();i++)
     {
         pii chosenSoldier = opponentSoldiers[i];
-        vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier, (color+1)%2);
-        vector<pii> bombsForChosenSoldier = game->validBombs(chosenSoldier, (color+1)%2);
+        vector<pii> movesForChosenSoldier = state->validMoves(chosenSoldier, (color+1)%2);
+        vector<pii> bombsForChosenSoldier = state->validBombs(chosenSoldier, (color+1)%2);
 
         for(int j = 0;j<movesForChosenSoldier.size();j++)
         {
@@ -214,9 +238,9 @@ float expectiVal(Game *state, float alpha, float beta, int depth)
 
 
     if (color)
-        opponentSoldiers = game->getBlackSoldiers();
+        opponentSoldiers = state->getBlackSoldiers();
     else
-        opponentSoldiers = game->getWhiteSoldiers();
+        opponentSoldiers = state->getWhiteSoldiers();
 
 
     vector<float> childStateValues;
@@ -224,8 +248,8 @@ float expectiVal(Game *state, float alpha, float beta, int depth)
     for(int i=0;i<opponentSoldiers.size();i++)
     {
         pii chosenSoldier = opponentSoldiers[i];
-        vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier, (color+1)%2);
-        vector<pii> bombsForChosenSoldier = game->validBombs(chosenSoldier, (color+1)%2);
+        vector<pii> movesForChosenSoldier = state->validMoves(chosenSoldier, (color+1)%2);
+        vector<pii> bombsForChosenSoldier = state->validBombs(chosenSoldier, (color+1)%2);
 
         for(int j = 0;j<movesForChosenSoldier.size();j++)
         {
@@ -282,16 +306,16 @@ float maxVal(Game *state, float alpha, float beta, int depth)
 
 
     if (!color)
-        mySoldiers = game->getBlackSoldiers();
+        mySoldiers = state->getBlackSoldiers();
     else
-        mySoldiers = game->getWhiteSoldiers();
+        mySoldiers = state->getWhiteSoldiers();
 
 
     for(int i=0;i<mySoldiers.size();i++)
     {
         pii chosenSoldier = mySoldiers[i];
-        vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier,color);
-        vector<pii> bombsForChosenSoldier = game->validBombs(chosenSoldier,color);
+        vector<pii> movesForChosenSoldier = state->validMoves(chosenSoldier,color);
+        vector<pii> bombsForChosenSoldier = state->validBombs(chosenSoldier,color);
 
         for(int j = 0;j<movesForChosenSoldier.size();j++)
         {
@@ -341,7 +365,7 @@ float maxVal(Game *state, float alpha, float beta, int depth)
 }
 
 
-// //for expectiVal
+//for expectiVal
 // float maxVal(Game *state, float alpha, float beta, int depth)
 // {
 //     // cout<<depth<<endl;
@@ -355,16 +379,16 @@ float maxVal(Game *state, float alpha, float beta, int depth)
 
 
 //     if (!color)
-//         mySoldiers = game->getBlackSoldiers();
+//         mySoldiers = state->getBlackSoldiers();
 //     else
-//         mySoldiers = game->getWhiteSoldiers();
+//         mySoldiers = state->getWhiteSoldiers();
 
 
 //     for(int i=0;i<mySoldiers.size();i++)
 //     {
 //         pii chosenSoldier = mySoldiers[i];
-//         vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier,color);
-//         vector<pii> bombsForChosenSoldier = game->validBombs(chosenSoldier,color);
+//         vector<pii> movesForChosenSoldier = state->validMoves(chosenSoldier,color);
+//         vector<pii> bombsForChosenSoldier = state->validBombs(chosenSoldier,color);
 
 //         for(int j = 0;j<movesForChosenSoldier.size();j++)
 //         {
@@ -420,7 +444,7 @@ void chooseAndPlayMove()
         mySoldiers = game->getWhiteSoldiers();
 
     // f.open("/Users/jvidit/Documents/sem5/col333/assignments/assignment-2/Cannon-player/Cannon-AI-master/test.txt",fstream::app);
-    // f<<"\n\n\n\n\n\n\n\n\n";
+    // cout<<"\n\n\n\n\n\n\n\n\n";
     // f.close();
 
 

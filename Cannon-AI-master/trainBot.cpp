@@ -33,6 +33,10 @@ int color;
 int n;
 int m;
 float time_left;
+
+float const timeThreshold = 20;
+int const soldierThreshold = 7;
+
 Game*game;
 EvaluateGame*evalGame;
 int maxDepth = 3;
@@ -54,6 +58,8 @@ fstream f;
 
 int main()
 {
+
+
     cin>>color;
     color = color-1;
     cin>>n;
@@ -71,7 +77,9 @@ int main()
     {
         //My Move
         // cout<<"RANDOMPLAYER'S MOVE"<<endl<<endl;
+        float tStart = clock();
         chooseAndPlayMove();
+        time_left -= (clock() - tStart)/1000000;
     }
     while(true)
     {
@@ -88,11 +96,27 @@ int main()
         cin>>action;
         cin>>finalPosition.first;
         cin>>finalPosition.second;
+
+
         game->play(soldierPosition,finalPosition,action,(color+1)%2);
         
         //My Move
         // cout<<"RANDOMPLAYER'S MOVE"<<endl<<endl;
+        float tStart = clock();
         chooseAndPlayMove();
+        time_left -= (clock() - tStart)/1000000;
+
+
+        vector<pii> ownSoldiers; 
+        if(color)
+            ownSoldiers = game->getWhiteSoldiers();
+        else
+            ownSoldiers = game->getBlackSoldiers();
+
+        if(time_left>=timeThreshold && ownSoldiers.size()<=soldierThreshold)
+            maxDepth = 5;
+        else
+            maxDepth = 3;
     }
     return 0;
 }
@@ -102,7 +126,10 @@ float evaluateGame (Game* game)
 {
     float pieceEval = evalGame->countPieces(game, color);
     float attackEval = evalGame->countAttacks(game, color);
-    return pieceEval + attackEval;
+    float totEval = pieceEval + attackEval;
+    totEval = (float)((int)totEval/7);
+
+    return totEval;
 }
 
 
@@ -417,7 +444,7 @@ void chooseAndPlayMove()
         mySoldiers = game->getWhiteSoldiers();
 
     // f.open("/Users/jvidit/Documents/sem5/col333/assignments/assignment-2/Cannon-player/Cannon-AI-master/test.txt",fstream::app);
-    // f<<"\n\n\n\n\n\n\n\n\n";
+    // cout<<"\n\n\n\n\n\n\n\n\n";
     // f.close();
 
 

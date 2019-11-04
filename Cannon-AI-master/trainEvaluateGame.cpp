@@ -38,7 +38,9 @@ float EvaluateGame::countPieces(Game* game, int color)
 
 
 
-    float evaluationBlack = ws*(blackSoldiers - whiteSoldiers) + wth*(blackTownHalls - whiteTownHalls);
+    float evaluationBlack = ws*(sqrt((double)blackSoldiers) - sqrt((double)whiteSoldiers)) + wth*(blackTownHalls - whiteTownHalls);
+
+    //float evaluationBlack = ws*(blackSoldiers - whiteSoldiers) + wth*(blackTownHalls - whiteTownHalls);
 
     // if(evaluationBlack>1000000)
     // {
@@ -54,7 +56,7 @@ float EvaluateGame::countPieces(Game* game, int color)
 float EvaluateGame::countAttacks(Game* game, int color)
 {
     vector<pii> blackSoldiers = game->getBlackSoldiers();
-    vector<pii>whiteSoldiers = game->getWhiteSoldiers();
+    vector<pii> whiteSoldiers = game->getWhiteSoldiers();
     vector<pii> blackTownHalls = game->getBlackTownHalls();
     vector<pii> whiteTownHalls = game->getWhiteTownHalls();
 
@@ -147,38 +149,56 @@ float EvaluateGame::countAttacks(Game* game, int color)
         }
     }
 
-    float countAttacksBlack = wnam*(nonAttackingMovesBlack -nonAttackingMovesWhite);
-    countAttacksBlack += wathm*(AttackingTHMovesBlack - AttackingTHMovesWhite);
-    countAttacksBlack += wasm*(AttackingSMovesBlack -AttackingSMovesWhite);
-    countAttacksBlack += wnab*(nonAttackingBombsBlack - nonAttackingBombsWhite);
-    countAttacksBlack += wathb*(AttackingTHBombsBlack - AttackingTHBombsWhite);
-    countAttacksBlack += wasb*(AttackingSBombsBlack - AttackingSBombsWhite);
-    countAttacksBlack += wpthb*(possibleTHBombBlack - possibleTHBombWhite);
 
-    // if ((game->getWhiteTownHalls().size()==2 && color==0) || (game->getBlackTownHalls().size()==2 && color==1))
-    //     countAttacksBlack += 10*wth;
+
+
+    float countAttacksBlack = wnam*nonAttackingMovesBlack
+                        +     wathm*AttackingTHMovesBlack
+                        +     wasm*AttackingSMovesBlack
+                        +     wnab*nonAttackingBombsBlack
+                        +     wathb*AttackingTHBombsBlack
+                        +     wasb*AttackingSBombsBlack
+                        +     wpthb*possibleTHBombBlack;
+
+    float countAttacksWhite = wnam*nonAttackingMovesWhite
+                        +     wathm*AttackingTHMovesWhite
+                        +     wasm*AttackingSMovesWhite
+                        +     wnab*nonAttackingBombsWhite
+                        +     wathb*AttackingTHBombsWhite
+                        +     wasb*AttackingSBombsWhite
+                        +     wpthb*possibleTHBombWhite;
+
+
+    float wOffense = ((float) game->getBlackSoldiers().size())/10;
+    float wDefense = ((float) game->getWhiteSoldiers().size())/10;
+
+
+    float blackEval = 1 * countAttacksBlack - 1 * countAttacksWhite;
+
+
+
     if (!color)
-        return countAttacksBlack;
+        return blackEval;
     else
-        return -1*countAttacksBlack;
+        return -1*blackEval;
 }
 
 
 EvaluateGame::EvaluateGame()
 {
     wth = 10000;
-    ws = 100;
+    ws = 400;
     
     wathb = 80;
     wathm = 50;
 
     wasb = 20;
-    wasm = 10;
+    wasm = 0;
 
     wnab = 5;
     wnam = 0;
 
-    wpthb =  0;  //possible town hall bomb
+    wpthb =  20;  //possible town hall bomb
     
 }
 

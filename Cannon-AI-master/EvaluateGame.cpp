@@ -194,10 +194,6 @@ EvaluateGame::EvaluateGame()
     wnam = 0;
 
     wpthb =  20;  //possible town hall bomb
-
-
-
-
     
 }
 

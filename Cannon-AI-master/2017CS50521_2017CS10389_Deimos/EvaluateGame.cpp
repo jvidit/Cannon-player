@@ -86,10 +86,7 @@ float EvaluateGame::countAttacks(Game* game, int color)
     	for(int j = 0;j<movesForChosenSoldier.size();j++)
     	{
     		if (game->hasTownHall(movesForChosenSoldier[j]))
-            {
     			AttackingTHMovesBlack+=1;
-                break;
-            }
     		else
     		{
     			if (game->hasSoldier(movesForChosenSoldier[j]))
@@ -126,10 +123,7 @@ float EvaluateGame::countAttacks(Game* game, int color)
     	for(int j = 0;j<movesForChosenSoldier.size();j++)
     	{
     		if (game->hasTownHall(movesForChosenSoldier[j]))
-            {
     			AttackingTHMovesWhite+=1;
-                break;
-            }
     		else
     		{
     			if (game->hasSoldier(movesForChosenSoldier[j]))
@@ -200,6 +194,10 @@ EvaluateGame::EvaluateGame()
     wnam = 0;
 
     wpthb =  20;  //possible town hall bomb
+
+
+
+
     
 }
 

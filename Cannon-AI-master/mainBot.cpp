@@ -34,8 +34,10 @@ int n;
 int m;
 float time_left;
 
-float const timeThreshold = 200;
-int const soldierThreshold = 0;
+float const timeThreshold = 70;
+int const soldierThreshold1 = 11;
+int const soldierThreshold2 = 5;
+
 
 Game*game;
 EvaluateGame*evalGame;
@@ -113,10 +115,13 @@ int main()
         else
             ownSoldiers = game->getBlackSoldiers();
 
-        if(time_left>=timeThreshold && ownSoldiers.size()<=soldierThreshold)
-            maxDepth = 5;
-        else
-            maxDepth = 3;
+        if(time_left>=timeThreshold)
+            if (ownSoldiers.size()<=soldierThreshold1)
+                maxDepth = 4;
+            if (ownSoldiers.size()<=soldierThreshold2)
+                maxDepth = 6;
+        else 
+            maxDepth =3;
     }
     return 0;
 }

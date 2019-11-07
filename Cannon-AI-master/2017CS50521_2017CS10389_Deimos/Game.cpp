@@ -206,7 +206,13 @@ vector<pii> Game::validMoves(pii soldierPosition, int color)
         if(x-1>=0)
         {
             if(board[x-1][y]==BlackSoldier || board[x-1][y]==BlackTownHall)
-                moves.pb(mp(x-1,y));
+                {
+                    moves.pb(mp(x-1,y));
+                    // if (x == 2 && y == 1)
+                    //     {
+                    //          cout<<"################################################################"<<endl;
+                    //     }
+                }
         }
         if(x+1<=n-1)
         {

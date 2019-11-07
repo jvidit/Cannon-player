@@ -1,0 +1,65 @@
+***********************************
+
+-> You are player 2
+-> You are alloted a time of 90s
+
+***********************************
+
+Player 1 played : S 0 7 M 0 4
+Time remaining is: 90s
+You played : S 7 2 M 7 3
+Player 1 played : S 2 7 M 2 4
+Time remaining is: 89s
+You played : S 5 2 M 6 3
+Player 1 played : S 6 6 B 6 3
+Time remaining is: 88s
+You played : S 7 1 M 7 2
+Player 1 played : S 4 7 M 5 6
+Time remaining is: 86s
+You played : S 7 2 M 6 3
+Player 1 played : S 5 6 B 1 2
+Time remaining is: 85s
+You played : S 3 0 M 3 3
+Player 1 played : S 2 4 M 3 3
+Time remaining is: 84s
+You played : S 1 0 M 0 1
+Player 1 played : S 3 3 M 3 2
+Time remaining is: 82s
+You played : S 3 1 M 3 2
+Player 1 played : S 6 6 B 6 3
+Time remaining is: 81s
+You played : S 5 0 M 6 1
+Player 1 played : S 0 5 B 0 1
+Time remaining is: 79s
+You played : S 6 1 M 7 2
+Player 1 played : S 0 6 M 0 3
+Time remaining is: 78s
+You played : S 5 1 M 4 2
+Player 1 played : S 0 4 B 0 0
+Time remaining is: 77s
+You played : S 3 2 M 2 3
+Player 1 played : S 5 6 B 2 3
+Time remaining is: 75s
+You played : S 7 2 M 6 3
+Player 1 played : S 6 6 B 6 3
+Time remaining is: 74s
+You played : S 7 3 M 6 4
+Player 1 played : S 6 5 M 6 4
+Time remaining is: 72s
+You played : S 4 2 M 5 3
+Player 1 played : S 6 4 M 5 3
+Time remaining is: 71s
+You played : S 7 0 M 6 1
+Player 1 played : S 2 6 M 3 5
+Time remaining is: 69s
+You played : S 1 1 M 2 2
+Player 1 played : S 3 5 M 4 4
+Time remaining is: 68s
+You played : S 2 2 M 1 3
+Player 1 played : S 0 4 M 1 3
+Time remaining is: 67s
+You played : S 6 1 M 6 2
+Player 1 played : S 5 3 M 6 2
+OTHER PLAYER WINS!
+Your Score : 0.0
+Opponent's Score : 10.11

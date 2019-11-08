@@ -34,7 +34,10 @@ int n;
 int m;
 float time_left;
 
-float const timeThreshold = 70;
+float const timeThreshold1 = 20;
+float const timeThreshold2 = 10;
+float const timeThreshold3 = 5;
+float const timeThreshold4 = 2;
 int const soldierThreshold1 = 11;
 int const soldierThreshold2 = 5;
 
@@ -56,11 +59,14 @@ float expectiVal(Game *state, float alpha, float beta, int depth);
 
 
 fstream f;
-
+float evaluationAtState [10000];
+int predictedForState [10000];
+int moveNumber = 0;
 
 int main()
 {
-
+    for(int i =0;i<10000;i++)
+        predictedForState[i] = 0;
 
     cin>>color;
     color = color-1;
@@ -105,23 +111,41 @@ int main()
         //My Move
         // cout<<"RANDOMPLAYER'S MOVE"<<endl<<endl;
         float tStart = clock();
-        chooseAndPlayMove();
+        // cerr<<time_left<<endl;
+        // cerr<<maxDepth<<endl;
+        
         time_left -= (clock() - tStart)/1000000;
 
-
         vector<pii> ownSoldiers; 
+        vector<pii> opponentSoldiers; 
+
         if(color)
             ownSoldiers = game->getWhiteSoldiers();
         else
             ownSoldiers = game->getBlackSoldiers();
 
-        if(time_left>=timeThreshold)
-            if (ownSoldiers.size()<=soldierThreshold1)
+        if (color)
+            opponentSoldiers = game->getBlackSoldiers();
+        else
+            opponentSoldiers = game->getWhiteSoldiers();
+
+        if(time_left>=timeThreshold1)
+        {
+            if (ownSoldiers.size()<=soldierThreshold1 && opponentSoldiers.size()<=soldierThreshold1)
                 maxDepth = 4;
-            if (ownSoldiers.size()<=soldierThreshold2)
+            if (ownSoldiers.size()<=soldierThreshold2 && opponentSoldiers.size()<=soldierThreshold2)
                 maxDepth = 6;
+        }
+        else if (time_left>=timeThreshold2)
+            maxDepth = 4;
+        else if (time_left>=timeThreshold3)
+            maxDepth = 3;
+        else if (time_left>=timeThreshold4)
+            maxDepth = 2;
         else 
-            maxDepth =3;
+            maxDepth = 1;
+
+        chooseAndPlayMove();
     }
     return 0;
 }
@@ -431,7 +455,7 @@ float maxVal(Game *state, float alpha, float beta, int depth)
 
 void chooseAndPlayMove()
 {
-
+    
     // game->printBoard();
 
     float alpha = -INT32_MAX;
@@ -564,9 +588,18 @@ void chooseAndPlayMove()
     }
     
     
-    
-    
+    evaluationAtState[moveNumber+maxDepth] = bestPlayValue;
+    predictedForState[moveNumber+maxDepth] = 1;
+
+    if(predictedForState[moveNumber] == 1)
+    {
+        evalGame->countPieces(game,color,1,evaluationAtState[moveNumber],evaluateGame(game));
+        evalGame->countAttacks(game,color,1,evaluationAtState[moveNumber],evaluateGame(game));
+    }
+    moveNumber+=2;
+
     cout<< "S " + to_string(soldierPosition.first) + " " + to_string(soldierPosition.second) + " " + string(1,action) + " " + to_string(finalPosition.first) + " " + to_string(finalPosition.second)<<endl;
+    
     game->play(soldierPosition, finalPosition, action, color);
     
 }

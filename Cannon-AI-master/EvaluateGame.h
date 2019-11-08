@@ -44,13 +44,18 @@ class EvaluateGame
     float wathb;
     float wasb;
     float wpthb;
-    
+    float alpha;
+
+    string weightsFilePath;
 
 public:
     
-    float countPieces(Game* game, int color);
-    float countAttacks(Game* game, int color);
+    float countPieces(Game* game, int color, int update = 0, float prediction = 0, float target = 0);
+    float countAttacks(Game* game, int color, int update = 0, float prediction = 0, float target = 0);
     EvaluateGame();
+
+    void writeWeights();
+    void readWeights();
     
 };
 

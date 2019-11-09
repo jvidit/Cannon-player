@@ -57,11 +57,15 @@ float EvaluateGame::countPieces(Game* game, int color, int update, float predict
 
     if(update)
         writeWeights();
+    
+    wth = max(0.0f,wth);
+    ws = max(0.0f,ws);
 
     if (!color)
         return evaluationBlack;
     else
         return -1*evaluationBlack;
+
 }
 
 float EvaluateGame::countAttacks(Game* game, int color, int update, float prediction, float target)
@@ -210,6 +214,17 @@ float EvaluateGame::countAttacks(Game* game, int color, int update, float predic
         wasb -= alpha*(target-prediction)*(wOffense*AttackingSBombsBlack - wDefense*AttackingSBombsWhite);
         wpthb -= alpha*(target-prediction)*(wOffense*possibleTHBombBlack - wDefense*possibleTHBombWhite);
     }
+
+    wathb = max(0.0f,wathb);
+    wathm = max(0.0f,wathm);
+
+    wasb = max(0.0f,wasb);
+    wasm = max(0.0f,wasm);
+
+    wnab = max(0.0f,wnab);
+    wnam = max(0.0f,wnam);
+
+    wpthb = max(0.0f,wpthb);
 
     if(update)
         writeWeights();

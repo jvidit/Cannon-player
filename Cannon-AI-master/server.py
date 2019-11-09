@@ -15,6 +15,7 @@ class Server:
                 self.communicator_list = []
                 self.NETWORK_TIMER = 150
                 self.log_file_handle = None
+                # self.driver = webdriver.Chrome(executable_path='/home/ashish/chrome_driver_directory')
 
         def setLogFile(self, filename):
                 self.log_file_handle = open(filename,'wb')
@@ -191,9 +192,9 @@ if __name__ == '__main__':
         parser.add_argument('-TL', dest = 'time_limit', metavar = 'time_limit', type = int, default = 120, help = 'Time limit (in s)')
         parser.add_argument('-LOG',dest = 'log_file', metavar = 'log_file', type = str, default = "", help = 'Logger File for Evaluation purposes')
         args = parser.parse_args()
-        if(args.n != 8 or args.m != 8):
-                print('Board size should be 8 x 8')
-                sys.exit()
+        # if(args.n != 8 or args.m != 8):
+        #         print('Board size should be 8 x 8')
+        #         sys.exit()
 
         if args.log_file != '':
                 local_Server.setLogFile(args.log_file)

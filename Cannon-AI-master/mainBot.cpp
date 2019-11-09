@@ -41,6 +41,8 @@ float const timeThreshold4 = 2;
 int const soldierThreshold1 = 11;
 int const soldierThreshold2 = 5;
 
+int const backupDepth = 3;
+
 
 Game*game;
 EvaluateGame*evalGame;
@@ -70,8 +72,8 @@ int main()
 
     cin>>color;
     color = color-1;
-    cin>>n;
     cin>>m;
+    cin>>n;
     cin>>time_left;
     
     game = new Game(n,m);
@@ -114,8 +116,6 @@ int main()
         // cerr<<time_left<<endl;
         // cerr<<maxDepth<<endl;
         
-        time_left -= (clock() - tStart)/1000000;
-
         vector<pii> ownSoldiers; 
         vector<pii> opponentSoldiers; 
 
@@ -146,6 +146,9 @@ int main()
             maxDepth = 1;
 
         chooseAndPlayMove();
+
+        time_left -= (clock() - tStart)/1000000;
+
     }
     return 0;
 }
@@ -479,6 +482,7 @@ void chooseAndPlayMove()
 
     // game->printVector(mySoldiers);
     // game->printBoard();
+    // game->printBoard();
     for(int i=0;i<mySoldiers.size();i++)
     {
         // cout<<i<<" ";
@@ -588,6 +592,9 @@ void chooseAndPlayMove()
     }
     
     
+    // evaluationAtState[moveNumber+maxDepth] = bestPlayValue;
+    // predictedForState[moveNumber+maxDepth] = 1;
+
     evaluationAtState[moveNumber+maxDepth] = bestPlayValue;
     predictedForState[moveNumber+maxDepth] = 1;
 

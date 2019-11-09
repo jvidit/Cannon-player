@@ -30,6 +30,36 @@ using namespace std;
 #define pii pair<int, int>
 
 
+float EvaluateGame::defenseScore(Game* game, int color, int update, float prediction, float target)
+{
+
+
+    int blackDefense = game->defenseScore(0);
+    int whiteDefense = game->defenseScore(1);
+
+    int blackScore = wd*(blackDefense - whiteDefense);
+
+
+    if (!color)
+    {   
+        wd += alpha*(target-prediction)*(blackScore);
+    }
+    else
+    {
+        wd -= alpha*(target-prediction)*(blackScore);
+    }
+
+    if(update)
+        writeWeights();
+
+    if(!color)
+        return blackScore;
+    else
+        return -blackScore;
+
+
+}
+
 float EvaluateGame::countPieces(Game* game, int color, int update, float prediction, float target)
 {
     int blackSoldiers = (game->getBlackSoldiers()).size();
@@ -211,6 +241,21 @@ float EvaluateGame::countAttacks(Game* game, int color, int update, float predic
         wpthb -= alpha*(target-prediction)*(wOffense*possibleTHBombBlack - wDefense*possibleTHBombWhite);
     }
 
+    wth = max(0.0f,wth);
+    ws = max(0.0f,ws);
+
+    wathb = max(0.0f,wathb);
+    wathm = max(0.0f,wathm);
+
+    wasb = max(0.0f,wasb);
+    wasm = max(0.0f,wasm);
+
+    wnab = max(0.0f,wnab);
+    wnam = max(0.0f,wnam);
+
+    wpthb = max(0.0f,wpthb);
+
+
     if(update)
         writeWeights();
 
@@ -239,6 +284,9 @@ EvaluateGame::EvaluateGame()
     // wnam = 0;
 
     // wpthb =  20;  //possible town hall bomb  
+
+    // wd = 10;
+
     alpha = 0.01;
     weightsFilePath="./weights";
 
@@ -265,6 +313,7 @@ void EvaluateGame::writeWeights()
     // file<<wnam<<endl;
     file<<0<<endl;
     file<<wpthb<<endl;
+    file<<wd<<endl;
 
     file.close();
 }
@@ -288,6 +337,8 @@ void EvaluateGame::readWeights()
 
     file>>wpthb;
 
+    file>>wd;
+
 
     wth = max(0.0f,wth);
     ws = max(0.0f,ws);
@@ -302,6 +353,8 @@ void EvaluateGame::readWeights()
     wnam = max(0.0f,wnam);
 
     wpthb = max(0.0f,wpthb);
+
+    wd = max(0.0f, wd);
 
 
     file.close();
@@ -323,6 +376,7 @@ void EvaluateGame::readWeights()
 // 5
 // 0
 // 20
+// 10
 
 
 

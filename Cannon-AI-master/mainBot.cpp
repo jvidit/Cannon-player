@@ -105,16 +105,15 @@ int main()
         cin>>finalPosition.first;
         cin>>finalPosition.second;
 
+        float tStart = clock();
 
         game->play(soldierPosition,finalPosition,action,(color+1)%2);
         
         //My Move
         // cout<<"RANDOMPLAYER'S MOVE"<<endl<<endl;
-        float tStart = clock();
         // cerr<<time_left<<endl;
         // cerr<<maxDepth<<endl;
         
-        time_left -= (clock() - tStart)/1000000;
 
         vector<pii> ownSoldiers; 
         vector<pii> opponentSoldiers; 
@@ -146,6 +145,8 @@ int main()
             maxDepth = 1;
 
         chooseAndPlayMove();
+        time_left -= (clock() - tStart)/1000000;
+        
     }
     return 0;
 }
@@ -155,7 +156,8 @@ float evaluateGame (Game* game)
 {
     float pieceEval = evalGame->countPieces(game, color);
     float attackEval = evalGame->countAttacks(game, color);
-    float totEval = pieceEval + attackEval;
+    float defenseEval = evalGame->defenseScore(game, color);
+    float totEval = pieceEval + attackEval + defenseEval;
     totEval = (float)((int)totEval/7);
 
     return totEval;
@@ -595,6 +597,7 @@ void chooseAndPlayMove()
     {
         evalGame->countPieces(game,color,1,evaluationAtState[moveNumber],evaluateGame(game));
         evalGame->countAttacks(game,color,1,evaluationAtState[moveNumber],evaluateGame(game));
+        evalGame->defenseScore(game,color,1,evaluationAtState[moveNumber],evaluateGame(game));
     }
     moveNumber+=2;
 

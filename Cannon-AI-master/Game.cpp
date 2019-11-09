@@ -484,6 +484,69 @@ int Game::possibleBombs(pii soldierPosition, int color)
     return possibleBombs;
 }
 
+
+int Game::defenseScore(int color)
+{
+    int defenseScore = 0;
+    
+    for(int i=0;i<=n-3;i++)
+    {
+        int diff = 0, flag = 0;
+
+        if(!color)
+        {
+
+            for(int j=m-1;j>=0;j--)
+            {
+                int whiteSoldiers = 0,blackSoldiers = 0;
+                for(int k = 0;k<3;k++)
+                {
+                    if(board[i+k][j]==WhiteSoldier)
+                        whiteSoldiers++;
+                    else if(board[i+k][j]==BlackSoldier)
+                        blackSoldiers++;
+                }
+
+                diff-=whiteSoldiers;
+                if(diff<0)
+                {
+                    flag=1;
+                    break;
+                }
+                diff+=blackSoldiers;
+            }
+        }
+        else
+        {
+            for(int j=0;j<m;j++)
+            {
+                int whiteSoldiers = 0,blackSoldiers = 0;
+                for(int k = 0;k<3;k++)
+                {
+                    if(board[i+k][j]==WhiteSoldier)
+                        whiteSoldiers++;
+                    else if(board[i+k][j]==BlackSoldier)
+                        blackSoldiers++;
+                }
+
+                diff-=blackSoldiers;
+                if(diff<0)
+                {
+                    flag=1;
+                    break;
+                }
+                diff+=whiteSoldiers;
+            }
+
+        }
+
+        if(!flag)
+            defenseScore++;
+    }
+
+    return defenseScore;
+}
+
 vector<pii> Game::getBlackSoldiers()
 {   
 	// printVector(blackSoldiers);  

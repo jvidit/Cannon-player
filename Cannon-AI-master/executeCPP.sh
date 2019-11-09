@@ -1,2 +1,2 @@
 #!/bin/bash
-./vedantBot
+./ankitBot

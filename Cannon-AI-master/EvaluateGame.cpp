@@ -29,6 +29,40 @@ using namespace std;
 #define pll pair<ll,ll>
 #define pii pair<int, int>
 
+float EvaluateGame::defenseScore(Game* game, int color, int update, float prediction, float target)
+{
+
+    int blackDefense = game->defenseScore(0);
+    int whiteDefense = game->defenseScore(1);
+
+    int blackScore = wd*(blackDefense - whiteDefense);
+
+
+    if (!color)
+    {   
+        wd += alpha*(target-prediction)*(blackScore);
+    }
+    else
+    {
+        wd -= alpha*(target-prediction)*(blackScore);
+    }
+    wd = max (0.0f,wd);
+
+    wd = min (30.0f,wd);
+
+    // if(update)
+    //     writeWeights();
+
+    if(update)
+        cerr<<blackScore<<endl;
+
+    if(!color)
+        return blackScore;
+    else
+        return -blackScore;
+
+
+}
 
 float EvaluateGame::countPieces(Game* game, int color, int update, float prediction, float target)
 {
@@ -55,11 +89,15 @@ float EvaluateGame::countPieces(Game* game, int color, int update, float predict
     // 	cout<<-(whiteSoldiers.size())<<" "<<wth*(blackTownHalls.size() - whiteTownHalls.size())<<" "<<evaluationBlack<<endl;
     // }
 
-    if(update)
-        writeWeights();
+    // if(update)
+    //     writeWeights();
     
     wth = max(0.0f,wth);
     ws = max(0.0f,ws);
+
+    wth = min(11000.0f,wth);
+    ws = min(1000.0f,ws);
+
 
     if (!color)
         return evaluationBlack;
@@ -226,6 +264,17 @@ float EvaluateGame::countAttacks(Game* game, int color, int update, float predic
 
     wpthb = max(0.0f,wpthb);
 
+    wathb = min(200.0f,wathb);
+    wathm = min(100.0f,wathm);
+
+    wasb = min(40.0f,wasb);
+    wasm = min(40.0f,wasm);
+
+    wnab = min(10.0f,wnab);
+    wnam = min(10.0f,wnam);
+
+    wpthb = min(20.0f,wpthb);
+
     if(update)
         writeWeights();
 
@@ -264,24 +313,39 @@ EvaluateGame::EvaluateGame()
 
 void EvaluateGame::writeWeights()
 {
-    ofstream file;
-    file.open(weightsFilePath);
+    // ofstream file;
+    // file.open(weightsFilePath);
 
-    file<<wth<<endl;
-    file<<ws<<endl;
+    // file<<wth<<endl;
+    // file<<ws<<endl;
 
-    file<<wathb<<endl;
-    file<<wathm<<endl;
+    // file<<wathb<<endl;
+    // file<<wathm<<endl;
 
-    file<<wasb<<endl;
-    file<<wasm<<endl;
+    // file<<wasb<<endl;
+    // file<<wasm<<endl;
 
-    file<<wnab<<endl;
+    // file<<wnab<<endl;
+    // // file<<wnam<<endl;
+    // file<<0<<endl;
+    // file<<wpthb<<endl;
+    // file<<wd<<endl;
+    // file.close();
+
+    cerr<<wth<<endl;
+    cerr<<ws<<endl;
+
+    cerr<<wathb<<endl;
+    cerr<<wathm<<endl;
+
+    cerr<<wasb<<endl;
+    cerr<<wasm<<endl;
+
+    cerr<<wnab<<endl;
     // file<<wnam<<endl;
-    file<<0<<endl;
-    file<<wpthb<<endl;
-
-    file.close();
+    cerr<<0<<endl;
+    cerr<<wpthb<<endl;
+    cerr<<wd<<endl;
 }
 
 void EvaluateGame::readWeights()
@@ -302,6 +366,7 @@ void EvaluateGame::readWeights()
     file>>wnam;
 
     file>>wpthb;
+    file>>wd;
 
 
     wth = max(0.0f,wth);
@@ -317,7 +382,7 @@ void EvaluateGame::readWeights()
     wnam = max(0.0f,wnam);
 
     wpthb = max(0.0f,wpthb);
-
+    wd = max(0.0f,wd);
 
     file.close();
 }

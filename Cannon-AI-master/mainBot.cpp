@@ -118,10 +118,11 @@ int main()
 
     }
     while(true)
-    {
+    {   
+        evalGame->writeWeights();
         //Opponent's Move
         // possibleOpponentMoves(color);
-        game->printBoard();
+        // game->printBoard();
         string opponentMove;
         pii soldierPosition;
         pii finalPosition;
@@ -257,8 +258,9 @@ float evaluateGame (Game* game)
 {
     float pieceEval = evalGame->countPieces(game, color);
     float attackEval = evalGame->countAttacks(game, color);
-    float totEval = pieceEval + attackEval;
-    totEval = (float)((int)totEval/7);
+    float defenseEval = evalGame->defenseScore(game, color);
+    float totEval = pieceEval + attackEval + defenseEval;
+    totEval = (float)((int)totEval/1);
 
     return totEval;
 }
@@ -701,6 +703,7 @@ void chooseAndPlayMove()
     {
         evalGame->countPieces(game,color,1,evaluationAtState[moveNumber],evaluateGame(game));
         evalGame->countAttacks(game,color,1,evaluationAtState[moveNumber],evaluateGame(game));
+        evalGame->defenseScore(game,color,1,evaluationAtState[moveNumber],evaluateGame(game));
     }
     moveNumber+=2;
 
@@ -710,56 +713,6 @@ void chooseAndPlayMove()
     
 }
 
-//Choosing and playing Random Move
-void chooseAndPlayRandomMove(int color)
-{
-    vector<pii> mySoldiers;
-    while(true)
-    {
-        if (color==0)
-            mySoldiers = game->getBlackSoldiers();
-        else
-            mySoldiers = game->getWhiteSoldiers();
-        
-        pii chosenSoldier = mySoldiers.at(rand()%mySoldiers.size());
-        vector<pii> bombsForChosenSoldier = game->validBombs(chosenSoldier, color);
-        vector<pii> movesForChosenSoldier = game->validMoves(chosenSoldier, color);
-        
-        if(rand()%2 == 0)
-        {
-            if (movesForChosenSoldier.size() == 0)
-                continue;
-            else
-            {
-                pii chosenMoveForChosenSoldier = movesForChosenSoldier.at(rand()%movesForChosenSoldier.size());
-                pii soldierPosition = chosenSoldier;
-                pii finalPosition = chosenMoveForChosenSoldier;
-                char action = 'M';
-                game->play(soldierPosition,finalPosition,action,color);
-                cout<< "S " + to_string(soldierPosition.first) + " " + to_string(soldierPosition.second) + " M " + to_string(finalPosition.first) + " " + to_string(finalPosition.second)<<endl;
-                // game->printBoard();
-                break;
-            }
-        }
-        else
-        {
-            if (bombsForChosenSoldier.size() == 0)
-                continue;
-            else
-            {
-                pii chosenBombForChosenSoldier = bombsForChosenSoldier.at(rand()%bombsForChosenSoldier.size());
-                pii soldierPosition = chosenSoldier;
-                pii finalPosition = chosenBombForChosenSoldier;
-                char action = 'B';
-                game->play(soldierPosition,finalPosition,action,color);
-                cout<< "S " + to_string(soldierPosition.first) + " " + to_string(soldierPosition.second) + " B " + to_string(finalPosition.first) + " " + to_string(finalPosition.second)<<endl;
-                // game->printBoard();
-                break;
-            }
-        }
-        
-    }
-}
 
 void possibleOpponentMoves(int color)
 {

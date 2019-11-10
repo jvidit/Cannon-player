@@ -330,9 +330,9 @@ vector<pii> Game::validMoves(pii soldierPosition, int color)
     
     
     
-    // cout<<"SOLDIER MOVES "<<soldierPosition.first<<" "<<soldierPosition.second<<endl;
+    // cerr<<"SOLDIER MOVES "<<soldierPosition.first<<" "<<soldierPosition.second<<endl;
     // printVector(moves);
-    // cout<<endl;
+    // cerr<<endl;
     return moves;
 }
 
@@ -446,9 +446,9 @@ vector<pii> Game::validBombs(pii soldierPosition, int color)
         }
     }
     
-    // cout<<"SOLDIER BOMBS "<<soldierPosition.first<<" "<<soldierPosition.second<<endl;
+    // cerr<<"SOLDIER BOMBS "<<soldierPosition.first<<" "<<soldierPosition.second<<endl;
     // printVector(moves);
-    // cout<<endl;
+    // cerr<<endl;
     return moves;
 }
 
@@ -523,28 +523,28 @@ int Game::getM()
 void Game::printBoard()
 {
 	;
-	cout<<endl;
+	cerr<<endl;
 
-	cout<<". . ";
+	cerr<<". . ";
 	for(int i=0;i<n;i++)
-		cout<<i<<" ";
-	cout<<"\n.\n";
+		cerr<<i<<" ";
+	cerr<<"\n.\n";
 
     for(int j=0;j<m;j++)
     {
-    	cout<<j<<"   ";
+    	cerr<<j<<"   ";
         for(int i=0;i<n;i++)
-            cout<<board[i][j]<<" ";
-        cout<<endl;
+            cerr<<board[i][j]<<" ";
+        cerr<<endl;
     }
-    cout<<endl;
+    cerr<<endl;
 }
 
 void Game::printVector(vector<pii> v)
 {
 	;
     for(int i=0;i<v.size();i++)
-        cout<<v[i].first<<" "<<v[i].second<<endl;
+        cerr<<v[i].first<<" "<<v[i].second<<endl;
 }
 
 bool Game::hasSoldier(pii position)

@@ -58,6 +58,7 @@ void chooseAndPlayRandomMove(int color);
 void possibleOpponentMoves(int color);
 float expectedValue(vector<float> v);
 float expectiVal(Game *state, float alpha, float beta, int depth);
+void assignColumn(int m);
 
 
 fstream f;
@@ -65,8 +66,18 @@ float evaluationAtState [10000];
 int predictedForState [10000];
 int moveNumber = 0;
 
+
+int bc1;
+int bc2;
+int bc3;
+int wc1;
+int wc2;
+int wc3;
+
 int main()
 {
+
+
     for(int i =0;i<10000;i++)
         predictedForState[i] = 0;
 
@@ -76,25 +87,41 @@ int main()
     cin>>n;
     cin>>time_left;
     
+    assignColumn(n);
     game = new Game(n,m);
     evalGame = new EvaluateGame();
     // game->printBoard();
     string move;
     
     srand(time(0));
+
+    int counter = 0;
+    if(m==10)
+        counter = 3;
     
     if (color == 0)
     {
+
         //My Move
         // cout<<"RANDOMPLAYER'S MOVE"<<endl<<endl;
+
         float tStart = clock();
-        chooseAndPlayMove();
+        if(counter==3)
+        {
+            cout<<"S "<<bc1<<" 9 M "<<bc1<<" 6"<<endl;
+            counter--;
+            game->play(mp(bc1,9),mp(bc1,6),'M',color);
+        }
+        else
+            chooseAndPlayMove();
         time_left -= (clock() - tStart)/1000000;
+
     }
     while(true)
     {
         //Opponent's Move
         // possibleOpponentMoves(color);
+        game->printBoard();
         string opponentMove;
         pii soldierPosition;
         pii finalPosition;
@@ -115,6 +142,56 @@ int main()
         float tStart = clock();
         // cerr<<time_left<<endl;
         // cerr<<maxDepth<<endl;
+
+
+        if(counter)
+        {
+            action = 'M';
+            if(color==0)
+            {
+                if(counter==2)
+                {
+                    cout<<"S "<<bc2<<" 9 M "<<bc2<<" 6"<<endl;
+                    soldierPosition = mp(bc2,9);
+                    finalPosition = mp(bc2,6);
+                }
+                else
+                {
+                    cout<<"S "<<bc3<<" 9 M "<<bc3<<" 6"<<endl;
+                    soldierPosition = mp(bc3,9);
+                    finalPosition = mp(bc3,6);
+                }
+            }
+            else
+            {
+                if(counter==3)
+                {
+                    cout<<"S "<<wc1<<" 0 M "<<wc1<<" 3"<<endl;
+                    soldierPosition = mp(wc1,0);
+                    finalPosition = mp(wc1,3);
+                }
+                else if(counter==2)
+                {
+                    cout<<"S "<<wc2<<" 0 M "<<wc2<<" 3"<<endl;
+                    soldierPosition = mp(wc2,0);
+                    finalPosition = mp(wc2,3);
+                }
+                else
+                {
+                    cout<<"S "<<wc3<<" 0 M "<<wc3<<" 3"<<endl;
+                    soldierPosition = mp(wc3,0);
+                    finalPosition = mp(wc3,3);
+                }
+            }
+
+
+            game->play(soldierPosition,finalPosition,action,color);
+
+
+            counter--;
+            time_left -= (clock() - tStart)/1000000;
+            continue;
+        }
         
         vector<pii> ownSoldiers; 
         vector<pii> opponentSoldiers; 
@@ -153,6 +230,28 @@ int main()
     return 0;
 }
 
+
+void assignColumn(int n)
+{
+    if(n==8)
+    {
+        bc1 = 0;
+        bc2 = 2;
+        bc3 = 4;
+        wc1 = 7;
+        wc2 = 3;
+        wc3 = 5;
+    }
+    else
+    {
+        bc1 = 0;
+        bc2 = 2;
+        bc3 = 4;
+        wc1 = 9;
+        wc2 = 7;
+        wc3 = 5;
+    }
+}
 
 float evaluateGame (Game* game)
 {

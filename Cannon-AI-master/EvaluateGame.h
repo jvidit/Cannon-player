@@ -45,15 +45,17 @@ class EvaluateGame
     float wasb;
     float wpthb;
     float wd;
+    float wps;
     float alpha;
 
     string weightsFilePath;
 
 public:
     
+    float defenseScore(Game* game, int color, int update = 0 , float prediction = 0, float target = 0);
+    float positionScore(Game* game, int color, int update = 0, float prediction = 0, float target = 0);
     float countPieces(Game* game, int color, int update = 0, float prediction = 0, float target = 0);
     float countAttacks(Game* game, int color, int update = 0, float prediction = 0, float target = 0);
-    float defenseScore(Game* game, int color, int update = 0 , float prediction = 0, float target = 0);
     EvaluateGame();
 
     void writeWeights();

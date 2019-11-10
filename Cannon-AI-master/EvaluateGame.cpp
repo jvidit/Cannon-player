@@ -29,6 +29,35 @@ using namespace std;
 #define pll pair<ll,ll>
 #define pii pair<int, int>
 
+float EvaluateGame::positionScore(Game* game, int color, int update, float prediction, float target)
+{
+    int blackPS = game->positionScore(0);
+    int whitePS = game->positionScore(1);
+
+    int blackScore = wps*(blackPS - whitePS);
+
+
+    if (!color)
+    {   
+        wd += alpha*(target-prediction)*(blackPS);
+    }
+    else
+    {
+        wd -= alpha*(target-prediction)*((blackPS));
+    }
+    wps = max (0.0f,wd);
+    wps = min (5.0f,wd);
+
+    // if(update)
+    //     writeWeights();
+
+    if(!color)
+        return blackPS;
+    else
+        return -blackPS;
+
+}
+
 float EvaluateGame::defenseScore(Game* game, int color, int update, float prediction, float target)
 {
 
@@ -52,9 +81,6 @@ float EvaluateGame::defenseScore(Game* game, int color, int update, float predic
 
     // if(update)
     //     writeWeights();
-
-    if(update)
-        cerr<<blackScore<<endl;
 
     if(!color)
         return blackScore;
@@ -346,6 +372,7 @@ void EvaluateGame::writeWeights()
     cerr<<0<<endl;
     cerr<<wpthb<<endl;
     cerr<<wd<<endl;
+    cerr<<wps<<endl;
 }
 
 void EvaluateGame::readWeights()
@@ -367,7 +394,7 @@ void EvaluateGame::readWeights()
 
     file>>wpthb;
     file>>wd;
-
+    file>>wps;
 
     wth = max(0.0f,wth);
     ws = max(0.0f,ws);
@@ -383,6 +410,7 @@ void EvaluateGame::readWeights()
 
     wpthb = max(0.0f,wpthb);
     wd = max(0.0f,wd);
+    wps = max(0.0f,wps);
 
     file.close();
 }

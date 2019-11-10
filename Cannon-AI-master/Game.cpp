@@ -488,7 +488,7 @@ int Game::defenseScore(int color)
 {
     int defenseScore = 0;
     
-    for(int i=0;i<=n-3;i++)
+    for(int i=-1;i<=n-2;i++)
     {
         int diff = 0, flag = 0;
 
@@ -500,6 +500,8 @@ int Game::defenseScore(int color)
                 int whiteSoldiers = 0,blackSoldiers = 0;
                 for(int k = 0;k<3;k++)
                 {
+                    if(i+k<0 || i+k>=n)
+                        continue;
                     if(board[i+k][j]==WhiteSoldier)
                         whiteSoldiers++;
                     else if(board[i+k][j]==BlackSoldier)
@@ -522,6 +524,8 @@ int Game::defenseScore(int color)
                 int whiteSoldiers = 0,blackSoldiers = 0;
                 for(int k = 0;k<3;k++)
                 {
+                    if(i+k<0 || i+k>=n)
+                        continue;
                     if(board[i+k][j]==WhiteSoldier)
                         whiteSoldiers++;
                     else if(board[i+k][j]==BlackSoldier)
@@ -547,6 +551,13 @@ int Game::defenseScore(int color)
         return 0;
 
     return defenseScore;
+}
+
+int Game::positionScore(int color)
+{
+    int positionScore = 0;
+    
+    return positionScore;
 }
 
 vector<pii> Game::getBlackSoldiers()

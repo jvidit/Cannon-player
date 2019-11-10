@@ -293,5 +293,5 @@ class Game:
 			print(self.get_score(1, error_state = 0))
 
 if __name__ == "__main__":
-	game = Game(8, 8, 'GUI')
+	game = Game(10, 10, 'GUI')
 	game.simulate(sys.argv[1])

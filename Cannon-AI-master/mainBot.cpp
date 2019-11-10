@@ -34,7 +34,7 @@ int n;
 int m;
 float time_left;
 
-float const timeThreshold1 = 20;
+float const timeThreshold1 = 25;
 float const timeThreshold2 = 10;
 float const timeThreshold3 = 5;
 float const timeThreshold4 = 2;
@@ -211,13 +211,13 @@ int main()
         {
             if (ownSoldiers.size()<=soldierThreshold1 && opponentSoldiers.size()<=soldierThreshold1)
                 maxDepth = 4;
-            if (ownSoldiers.size()<=soldierThreshold2 && opponentSoldiers.size()<=soldierThreshold2)
+            if (ownSoldiers.size() + opponentSoldiers.size()<= 2*soldierThreshold2 - 1)
                 maxDepth = 6;
         }
         else if (time_left>=timeThreshold2)
             maxDepth = 4;
         else if (time_left>=timeThreshold3)
-            maxDepth = 3;
+            maxDepth = 2;
         else if (time_left>=timeThreshold4)
             maxDepth = 2;
         else 
@@ -259,7 +259,8 @@ float evaluateGame (Game* game)
     float pieceEval = evalGame->countPieces(game, color);
     float attackEval = evalGame->countAttacks(game, color);
     float defenseEval = evalGame->defenseScore(game, color);
-    float totEval = pieceEval + attackEval + defenseEval;
+    float positionEval = evalGame->positionScore(game, color);
+    float totEval = pieceEval + attackEval + defenseEval + positionEval;
     totEval = (float)((int)totEval/1);
 
     return totEval;
@@ -704,6 +705,7 @@ void chooseAndPlayMove()
         evalGame->countPieces(game,color,1,evaluationAtState[moveNumber],evaluateGame(game));
         evalGame->countAttacks(game,color,1,evaluationAtState[moveNumber],evaluateGame(game));
         evalGame->defenseScore(game,color,1,evaluationAtState[moveNumber],evaluateGame(game));
+        evalGame->positionScore(game,color,1,evaluationAtState[moveNumber],evaluateGame(game));
     }
     moveNumber+=2;
 
